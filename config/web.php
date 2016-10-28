@@ -45,6 +45,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'news/index'
             ],
         ]
     ],
@@ -61,6 +62,9 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+    ];
+    $config['modules']['utility'] = [
+        'class' => 'c006\utility\migration\Module',
     ];
 }
 

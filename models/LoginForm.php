@@ -316,7 +316,8 @@ class LoginForm extends Model
     {
         $auth = Yii::$app->authManager;
         $authorRole = $auth->getRolesByUser($model->id);
-        $this->role = array_pop(array_keys($authorRole));
+        $keys = array_keys($authorRole);
+        $this->role = array_pop($keys);
         $this->username = $model->username;
     }
 

@@ -31,6 +31,7 @@ class EmailNotification extends NotificationHandler implements NotificationInter
 
 
     public function sendMail($email, $from, $subject, $body){
+
         \Yii::$app->mailer->compose()
             ->setTo($email)
             ->setFrom($from)

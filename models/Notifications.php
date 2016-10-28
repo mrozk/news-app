@@ -109,6 +109,7 @@ class Notifications extends \yii\db\ActiveRecord
 
     public static function processEvents($event){
 
+
         $notifications = Notifications::findAll(['model_name' => $event->sender->className()]);
         $handler = new NotificationHandler();
 

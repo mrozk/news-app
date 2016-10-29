@@ -16,17 +16,24 @@ class EmailNotification extends NotificationHandler implements NotificationInter
      */
     public function execute($params)
     {
-        /** @var User $user */
+        $userList = User::findAll(
+            [
+                'id' =>  ArrayHelper::getValue($params, 'user_ids'),
+                'active' =>1
+            ]);
         /** @var Templates $template */
-        $user = ArrayHelper::getValue($params, 'user');
         $template = ArrayHelper::getValue($params, 'template');
-        $message = ArrayHelper::getValue($params, 'message');
-        $this->sendMail(
-            $user->username,
-            [\Yii::$app->params['adminEmail'] => \Yii::$app->name . ' robot'],
-            $template->title,
-            $message
-        );
+        foreach($userList as $item){
+
+            $this->sendMail(
+                $item->username,
+                [\Yii::$app->params['adminEmail'] => \Yii::$app->name . ' robot'],
+                $template->title,
+                $template->resolveTemplate(ArrayHelper::getValue($params, 'model'), $item)
+            );
+
+        }
+
     }
 
 

@@ -87,6 +87,83 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
+
+
+<script type="text/javascript">
+
+    /**
+     * AJAX long-polling
+     *
+     * 1. sends a request to the server (without a timestamp parameter)
+     * 2. waits for an answer from server.php (which can take forever)
+     * 3. if server.php responds (whenever), put data_from_file into #response
+     * 4. and call the function again
+     *
+     * @param timestamp
+     */
+    function getContent(timestamp)
+    {
+        var time = timestamp;
+
+        $.ajax(
+            {
+                type: 'GET',
+                dataType: 'json',
+                url: '/pooling',
+                data: {
+                    time: time
+                },
+                success: function(data){
+                    time = data['time'];
+                    if(typeof  data['data'] != 'undefined'){
+                        $('.modal-body p').html(data['data']);
+                        $('#myModal').modal("show");
+                        //alert('Really pretty modal window ' + data['data']);
+                    }
+
+                },
+                complete: function(){
+                    getContent(time);
+                    //console.log(data);
+                }
+            }
+        );
+    }
+
+    // initialize jQuery
+    $(function() {
+        getContent();
+    });
+
+</script>
+<div class="container">
+    <!--<h2>Basic Modal Example</h2>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+    -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
 <?php $this->endPage() ?>

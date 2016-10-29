@@ -51,14 +51,7 @@ class NotificationHandler implements NotificationInterface
         }
 
         $params['user_ids'] = array_unique($userIds);
-        $userList = User::findAll(['id' => $params['user_ids'], 'active' =>1]);
-        $template = ArrayHelper::getValue($params, 'template');
-
-        foreach($userList as $item){
-            $params['user'] = $item;
-            $params['message'] = $template->resolveTemplate(ArrayHelper::getValue($params, 'model'),  $item);
-            $this->handler->execute($params);
-        }
+        $this->handler->execute($params);
 
     }
 

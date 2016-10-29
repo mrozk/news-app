@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $template = '{view}{link}';
     }
     ?>
-    <?php Pjax::begin(); ?>    <?= GridView::widget([
+    <?= GridView::widget([
         'layout'=>"{summary}\n{items}\n{pager}",
 
         'dataProvider' => $dataProvider,
@@ -51,4 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-    <?php Pjax::end(); ?></div>
+    </div>
+
+
